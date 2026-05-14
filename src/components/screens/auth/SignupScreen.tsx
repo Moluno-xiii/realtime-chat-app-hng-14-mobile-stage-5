@@ -29,7 +29,7 @@ const SignupScreen = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      router.replace('/(tabs)');
+      router.replace('/chats');
     }, 900);
   };
 

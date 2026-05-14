@@ -33,24 +33,23 @@ const MessageRow = ({ msg, groupStart, groupEnd, onLongPress }: MessageRowProps)
 
   return (
     <View
-      className={mine ? 'flex-row items-end justify-end' : 'flex-row items-end'}
-      style={{
-        gap: 8,
-        marginTop: groupStart ? 8 : 1,
-      }}
+      className="flex-row items-end"
+      style={{ gap: 8, marginTop: groupStart ? 8 : 1 }}
     >
       {!mine ? (
         <View style={{ width: 26, opacity: groupEnd ? 1 : 0 }}>
           <Avatar initials={avatar.initials} color={avatar.color} size={26} />
         </View>
       ) : null}
-      <Pressable
-        onLongPress={() => onLongPress?.(msg)}
-        delayLongPress={380}
-        accessibilityLabel="Hold to react or manage message"
-      >
-        {bubble}
-      </Pressable>
+      <View style={{ flex: 1, alignItems: mine ? 'flex-end' : 'flex-start' }}>
+        <Pressable
+          onLongPress={() => onLongPress?.(msg)}
+          delayLongPress={380}
+          accessibilityLabel="Hold to react or manage message"
+        >
+          {bubble}
+        </Pressable>
+      </View>
     </View>
   );
 };
