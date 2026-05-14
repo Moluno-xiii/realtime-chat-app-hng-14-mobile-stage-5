@@ -2,4 +2,31 @@
 @import 'uniwind';
 
 @import 'heroui-native/styles';
-@source './node_modules/heroui-native/lib';
+@source '../node_modules/heroui-native/lib';
+
+@layer theme {
+  :root {
+    @variant light {
+      --color-bg: #faf8f5;
+      --color-bg-2: #f2f0ec;
+      --color-ink: #12161d;
+      --color-ink-2: #44484e;
+      --color-ink-3: #7c8088;
+      --color-line: #d8dbe0;
+      --color-bubble-me: #507ef1;
+      --color-bubble-them: #f4f1ed;
+      --color-good: #349d62;
+    }
+    @variant dark {
+      --color-bg: #0e1217;
+      --color-bg-2: #191d24;
+      --color-ink: #f3f1ee;
+      --color-ink-2: #b4b7bd;
+      --color-ink-3: #70757c;
+      --color-line: #292e36;
+      --color-bubble-me: #4d79e4;
+      --color-bubble-them: #20242b;
+      --color-good: #47b777;
+    }
+  }
+}
