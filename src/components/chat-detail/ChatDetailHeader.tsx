@@ -1,4 +1,5 @@
 import { Pressable, Text, View } from 'react-native';
+import { useUniwind } from 'uniwind';
 import { Avatar, IconButton, TypingDots } from '@/components/ui';
 import { BackIcon, SearchIcon, VideoIcon } from '@/components/ui/icons';
 import { AVATARS, Thread } from '@/constants';
@@ -10,6 +11,9 @@ type ChatDetailHeaderProps = {
 };
 
 const ChatDetailHeader = ({ thread, typing, onBack }: ChatDetailHeaderProps) => {
+  const { theme } = useUniwind();
+  const ink = theme === 'dark' ? '#f3f1ee' : '#12161d';
+  const ink2 = theme === 'dark' ? '#b4b7bd' : '#44484e';
   const avatar = AVATARS[thread.who];
 
   return (
@@ -24,7 +28,7 @@ const ChatDetailHeader = ({ thread, typing, onBack }: ChatDetailHeaderProps) => 
         className="items-center justify-center active:opacity-70"
         style={{ width: 36, height: 36, borderRadius: 12 }}
       >
-        <BackIcon color="#12161d" size={18} />
+        <BackIcon color={ink} size={18} />
       </Pressable>
 
       <View className="relative">
@@ -59,10 +63,10 @@ const ChatDetailHeader = ({ thread, typing, onBack }: ChatDetailHeaderProps) => 
       </View>
 
       <IconButton accessibilityLabel="Search in conversation">
-        <SearchIcon color="#44484E" size={18} />
+        <SearchIcon color={ink2} size={18} />
       </IconButton>
       <IconButton accessibilityLabel="Start video call">
-        <VideoIcon color="#44484E" size={20} />
+        <VideoIcon color={ink2} size={20} />
       </IconButton>
     </View>
   );

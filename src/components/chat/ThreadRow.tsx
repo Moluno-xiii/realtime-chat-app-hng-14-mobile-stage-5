@@ -7,7 +7,7 @@ const ThreadRow = ({ thread, isLast }: { thread: Thread; isLast: boolean }) => {
   const avatar = AVATARS[thread.who];
   return (
     <Pressable
-      onPress={() => router.push(`/chats/${thread.id}`)}
+      onPress={() => router.push(`/chat/${thread.id}`)}
       accessibilityRole="button"
       accessibilityLabel={`Open conversation with ${avatar.name}`}
       className="flex-row gap-3 py-3 active:bg-bg-2"

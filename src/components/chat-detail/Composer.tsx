@@ -1,4 +1,5 @@
 import { Pressable, TextInput, View } from 'react-native';
+import { useUniwind } from 'uniwind';
 import { CheckIcon, MicIcon, PlusIcon, SendIcon } from '@/components/ui/icons';
 
 type ComposerProps = {
@@ -18,6 +19,9 @@ const Composer = ({
   onStartRecord,
   editing = false,
 }: ComposerProps) => {
+  const { theme } = useUniwind();
+  const ink = theme === 'dark' ? '#f3f1ee' : '#12161d';
+  const ink2 = theme === 'dark' ? '#b4b7bd' : '#44484e';
   const canSend = draft.trim().length > 0;
 
   return (
@@ -36,7 +40,7 @@ const Composer = ({
         className="bg-bg-2 items-center justify-center active:opacity-80"
         style={{ width: 38, height: 38, borderRadius: 19 }}
       >
-        <PlusIcon color="#44484E" size={20} />
+        <PlusIcon color={ink2} size={20} />
       </Pressable>
 
       <View
@@ -59,7 +63,7 @@ const Composer = ({
           style={{
             flex: 1,
             fontSize: 15,
-            color: '#12161d',
+            color: ink,
             paddingTop: 4,
             paddingBottom: 4,
             maxHeight: 80,
@@ -87,7 +91,7 @@ const Composer = ({
           className="bg-bg-2 items-center justify-center active:opacity-80"
           style={{ width: 38, height: 38, borderRadius: 19 }}
         >
-          <MicIcon color="#44484E" size={20} />
+          <MicIcon color={ink2} size={20} />
         </Pressable>
       )}
     </View>

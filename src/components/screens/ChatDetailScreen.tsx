@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList, Keyboard, Text, View } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { router } from 'expo-router';
 import { SafeAreaWrapper, TickStatus } from '@/components/ui';
 import {
@@ -89,6 +90,11 @@ const ChatDetailScreen = ({ chatId }: ChatDetailScreenProps) => {
       listRef.current?.scrollToEnd({ animated: true });
     });
   }, []);
+
+  useEffect(() => {
+    const sub = Keyboard.addListener('keyboardDidShow', scrollToEnd);
+    return () => sub.remove();
+  }, [scrollToEnd]);
 
   const sendNew = () => {
     const text = draft.trim();
@@ -185,7 +191,7 @@ const ChatDetailScreen = ({ chatId }: ChatDetailScreenProps) => {
 
   const goBack = () => {
     if (router.canGoBack()) router.back();
-    else router.replace('/chats');
+    else router.replace('/(tabs)');
   };
 
   const avatar = AVATARS[thread.who];
@@ -195,58 +201,60 @@ const ChatDetailScreen = ({ chatId }: ChatDetailScreenProps) => {
 
   return (
     <SafeAreaWrapper scrollable={false} edges={['top', 'left', 'right', 'bottom']}>
-      <ChatDetailHeader thread={thread} typing={theyTyping} onBack={goBack} />
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+        <ChatDetailHeader thread={thread} typing={theyTyping} onBack={goBack} />
 
-      <FlatList
-        ref={listRef}
-        data={messages}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{
-          paddingHorizontal: 12,
-          paddingTop: 8,
-          paddingBottom: 8,
-          gap: 4,
-        }}
-        ListHeaderComponent={<DayDivider label="Today" />}
-        ListFooterComponent={theyTyping ? <TheirTypingBubble who={thread.who} /> : null}
-        ListEmptyComponent={
-          <View className="py-12 items-center gap-2">
-            <Text className="text-ink font-semibold" style={{ fontSize: 16 }}>
-              Say hi to {avatar.name}
-            </Text>
-            <Text className="text-ink-3" style={{ fontSize: 13 }}>
-              Your messages will appear here
-            </Text>
-          </View>
-        }
-        renderItem={({ item, index }) => {
-          const prev = messages[index - 1];
-          const next = messages[index + 1];
-          const groupStart = !prev || prev.from !== item.from;
-          const groupEnd = !next || next.from !== item.from;
-          return (
-            <MessageRow
-              msg={item}
-              groupStart={groupStart}
-              groupEnd={groupEnd}
-              onLongPress={setActionsMsg}
-            />
-          );
-        }}
-        onContentSizeChange={scrollToEnd}
-        showsVerticalScrollIndicator={false}
-      />
+        <FlatList
+          ref={listRef}
+          data={messages}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{
+            paddingHorizontal: 12,
+            paddingTop: 8,
+            paddingBottom: 8,
+            gap: 4,
+          }}
+          ListHeaderComponent={<DayDivider label="Today" />}
+          ListFooterComponent={theyTyping ? <TheirTypingBubble who={thread.who} /> : null}
+          ListEmptyComponent={
+            <View className="py-12 items-center gap-2">
+              <Text className="text-ink font-semibold" style={{ fontSize: 16 }}>
+                Say hi to {avatar.name}
+              </Text>
+              <Text className="text-ink-3" style={{ fontSize: 13 }}>
+                Your messages will appear here
+              </Text>
+            </View>
+          }
+          renderItem={({ item, index }) => {
+            const prev = messages[index - 1];
+            const next = messages[index + 1];
+            const groupStart = !prev || prev.from !== item.from;
+            const groupEnd = !next || next.from !== item.from;
+            return (
+              <MessageRow
+                msg={item}
+                groupStart={groupStart}
+                groupEnd={groupEnd}
+                onLongPress={setActionsMsg}
+              />
+            );
+          }}
+          onContentSizeChange={scrollToEnd}
+          showsVerticalScrollIndicator={false}
+        />
 
-      {editingId ? (
-        <EditingBanner preview={editingPreview} onCancel={cancelEdit} />
-      ) : null}
+        {editingId ? (
+          <EditingBanner preview={editingPreview} onCancel={cancelEdit} />
+        ) : null}
 
-      <Composer
-        draft={draft}
-        setDraft={setDraft}
-        onSend={onSend}
-        editing={editingId !== null}
-      />
+        <Composer
+          draft={draft}
+          setDraft={setDraft}
+          onSend={onSend}
+          editing={editingId !== null}
+        />
+      </KeyboardAvoidingView>
 
       <MessageActionsSheet
         msg={actionsMsg}

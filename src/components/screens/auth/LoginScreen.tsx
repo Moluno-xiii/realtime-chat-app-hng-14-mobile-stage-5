@@ -24,7 +24,7 @@ const LoginScreen = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      router.replace('/chats');
+      router.replace('/(tabs)');
     }, 900);
   };
 
