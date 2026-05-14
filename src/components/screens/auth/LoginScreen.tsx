@@ -4,28 +4,37 @@ import { router } from 'expo-router';
 import { Button, Input, Label, Spinner, TextField } from 'heroui-native';
 import { AuthBrandHeader, AuthFooter, AuthFormError } from '@/components/auth';
 import { SafeAreaWrapper } from '@/components/ui';
+import useAuth from '@/hooks/useAuth';
+import { handleError } from '@/contexts/AuthContext';
 
 const LoginScreen = () => {
+  const { login } = useAuth();
   const [email, setEmail] = useState('demo@pulse.app');
   const [password, setPassword] = useState('demo1234');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const submit = () => {
-    setError('');
-    if (!email.includes('@')) {
-      setError('Enter a valid email address');
-      return;
-    }
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+  const submit = async () => {
+    try {
+      if (!email.includes('@')) {
+        setError('Enter a valid email address');
+        return;
+      }
+      if (password.length < 6) {
+        setError('Password must be at least 6 characters');
+        return;
+      }
+
+      setError('');
+      setLoading(true);
+      await login({ email, password });
       router.replace('/(tabs)');
-    }, 900);
+    } catch (e) {
+      const error = handleError(e);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

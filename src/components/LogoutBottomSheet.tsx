@@ -2,15 +2,23 @@ import { BottomSheet, Button } from 'heroui-native';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useRouter } from 'expo-router';
+import useAuth from '@/hooks/useAuth';
 import { SignOutIcon } from './ui/icons';
 
 const LogoutBottomSheet = () => {
   const router = useRouter();
+  const { logout: signOutUser, isLoading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const loggingOut = isLoading === 'logout';
 
-  const logout = () => {
-    router.replace('/(auth)/login');
-    setIsOpen(false);
+  const logout = async () => {
+    try {
+      await signOutUser();
+      setIsOpen(false);
+      router.replace('/(auth)/login');
+    } catch {
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -31,10 +39,14 @@ const LogoutBottomSheet = () => {
             </BottomSheet.Description>
           </View>
           <View className="gap-3">
-            <Button variant="danger" onPress={logout}>
-              <Button.Label>Yes, logout</Button.Label>
+            <Button variant="danger" onPress={logout} isDisabled={loggingOut}>
+              <Button.Label>{loggingOut ? 'Logging out…' : 'Yes, logout'}</Button.Label>
             </Button>
-            <Button variant="tertiary" onPress={() => setIsOpen(false)}>
+            <Button
+              variant="tertiary"
+              onPress={() => setIsOpen(false)}
+              isDisabled={loggingOut}
+            >
               No, stay
             </Button>
           </View>

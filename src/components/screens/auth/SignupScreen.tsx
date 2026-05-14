@@ -4,33 +4,46 @@ import { router } from 'expo-router';
 import { Button, Input, Label, Spinner, TextField } from 'heroui-native';
 import { AuthBrandHeader, AuthFooter, AuthFormError } from '@/components/auth';
 import { SafeAreaWrapper } from '@/components/ui';
+import useAuth from '@/hooks/useAuth';
+import { handleError } from '@/contexts/AuthContext';
 
 const SignupScreen = () => {
+  const { signup } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const submit = () => {
-    setError('');
-    if (name.trim().length < 2) {
-      setError('Tell us your name');
-      return;
-    }
-    if (!email.includes('@')) {
-      setError('Enter a valid email address');
-      return;
-    }
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
-      return;
-    }
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+  const submit = async () => {
+    try {
+      setError('');
+      setLoading(true);
+      if (name.trim().length < 2) {
+        setError('Tell us your name');
+        return;
+      }
+      if (password !== confirmPassword) {
+        setError('Both password fields must match');
+        return;
+      }
+      if (!email.includes('@')) {
+        setError('Enter a valid email address');
+        return;
+      }
+      if (password.length < 6) {
+        setError('Password must be at least 6 characters');
+        return;
+      }
+      await signup({ email, password, fullName: name });
       router.replace('/(tabs)');
-    }, 900);
+    } catch (e) {
+      const error = handleError(e);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,6 +79,16 @@ const SignupScreen = () => {
           <Input
             value={password}
             onChangeText={setPassword}
+            placeholder="At least 6 characters"
+            secureTextEntry
+          />
+        </TextField>
+
+        <TextField>
+          <Label>Confirm Password</Label>
+          <Input
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
             placeholder="At least 6 characters"
             secureTextEntry
           />

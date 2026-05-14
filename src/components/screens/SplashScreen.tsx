@@ -1,15 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaWrapper, TypingDots } from '@/components/ui';
+import useAuth from '@/hooks/useAuth';
 import PulseRing from '../PulseRing';
 import BrandPulse from '../BrandPulse';
 
 const SplashScreen = () => {
+  const { user } = useAuth();
+  const [minDelayDone, setMinDelayDone] = useState(false);
+
   useEffect(() => {
-    const t = setTimeout(() => router.replace('/(auth)/login'), 2000);
+    const t = setTimeout(() => setMinDelayDone(true), 1200);
     return () => clearTimeout(t);
   }, []);
+
+  useEffect(() => {
+    if (!minDelayDone || user === undefined) return;
+    router.replace(user ? '/(tabs)' : '/(auth)/login');
+  }, [minDelayDone, user]);
 
   return (
     <SafeAreaWrapper scrollable={false}>
