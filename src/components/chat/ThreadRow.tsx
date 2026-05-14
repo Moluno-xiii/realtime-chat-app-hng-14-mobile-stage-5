@@ -1,11 +1,17 @@
 import { Pressable, Text, View } from 'react-native';
+import { router } from 'expo-router';
 import { Avatar, TypingDots } from '../ui';
 import { AVATARS, Thread } from '@/constants';
 
 const ThreadRow = ({ thread, isLast }: { thread: Thread; isLast: boolean }) => {
   const avatar = AVATARS[thread.who];
   return (
-    <Pressable className="flex-row gap-3 py-3 active:bg-bg-2">
+    <Pressable
+      onPress={() => router.push(`/chat/${thread.id}`)}
+      accessibilityRole="button"
+      accessibilityLabel={`Open conversation with ${avatar.name}`}
+      className="flex-row gap-3 py-3 active:bg-bg-2"
+    >
       <View className="relative">
         <Avatar initials={avatar.initials} color={avatar.color} size={48} />
         {thread.online ? (

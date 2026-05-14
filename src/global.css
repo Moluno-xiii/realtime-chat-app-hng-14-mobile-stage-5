@@ -4,33 +4,29 @@
 @import 'heroui-native/styles';
 @source '../node_modules/heroui-native/lib';
 
-/* Pulse-specific design tokens. HeroUI Native already defines tokens for
- * accent, danger, success, warning, background, foreground, surface, border,
- * separator, muted — don't redeclare those (it would override per-theme values).
- * Here we add only the extra chat-specific palette the design needs. */
 @layer theme {
   :root {
     @variant light {
-      --color-bg: #FAF8F5;
-      --color-bg-2: #F2F0EC;
-      --color-ink: #12161D;
-      --color-ink-2: #44484E;
-      --color-ink-3: #7C8088;
-      --color-line: #D8DBE0;
-      --color-bubble-me: #507EF1;
-      --color-bubble-them: #F4F1ED;
-      --color-good: #349D62;
+      --color-bg: #faf8f5;
+      --color-bg-2: #f2f0ec;
+      --color-ink: #12161d;
+      --color-ink-2: #44484e;
+      --color-ink-3: #7c8088;
+      --color-line: #d8dbe0;
+      --color-bubble-me: #507ef1;
+      --color-bubble-them: #f4f1ed;
+      --color-good: #349d62;
     }
     @variant dark {
-      --color-bg: #0E1217;
-      --color-bg-2: #191D24;
-      --color-ink: #F3F1EE;
-      --color-ink-2: #B4B7BD;
-      --color-ink-3: #70757C;
-      --color-line: #292E36;
-      --color-bubble-me: #4D79E4;
-      --color-bubble-them: #20242B;
-      --color-good: #47B777;
+      --color-bg: #0e1217;
+      --color-bg-2: #191d24;
+      --color-ink: #f3f1ee;
+      --color-ink-2: #b4b7bd;
+      --color-ink-3: #70757c;
+      --color-line: #292e36;
+      --color-bubble-me: #4d79e4;
+      --color-bubble-them: #20242b;
+      --color-good: #47b777;
     }
   }
 }
