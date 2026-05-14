@@ -1,0 +1,10 @@
+export { default as ChatsTabIcon } from './ChatsTab';
+export { default as CheckIcon } from './CheckIcon';
+export { default as ChevronRightIcon } from './ChevronRight';
+export { default as CloseIcon } from './Close';
+export { default as EditIcon } from './Edit';
+export { default as PlusIcon } from './Plus';
+export { default as QRIcon } from './QRIcon';
+export { default as SearchIcon } from './Search';
+export { default as SignOutIcon } from './SignOut';
+export { default as YouTabIcon } from './YouTab';

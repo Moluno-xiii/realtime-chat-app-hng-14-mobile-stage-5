@@ -23,7 +23,7 @@ const RootLayout = () => {
         <SafeAreaProvider>
           <KeyboardProvider>
             <HeroUINativeProvider>
-              <Stack>
+              <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index" />
               </Stack>
             </HeroUINativeProvider>

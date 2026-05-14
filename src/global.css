@@ -2,4 +2,35 @@
 @import 'uniwind';
 
 @import 'heroui-native/styles';
-@source './node_modules/heroui-native/lib';
+@source '../node_modules/heroui-native/lib';
+
+/* Pulse-specific design tokens. HeroUI Native already defines tokens for
+ * accent, danger, success, warning, background, foreground, surface, border,
+ * separator, muted — don't redeclare those (it would override per-theme values).
+ * Here we add only the extra chat-specific palette the design needs. */
+@layer theme {
+  :root {
+    @variant light {
+      --color-bg: #FAF8F5;
+      --color-bg-2: #F2F0EC;
+      --color-ink: #12161D;
+      --color-ink-2: #44484E;
+      --color-ink-3: #7C8088;
+      --color-line: #D8DBE0;
+      --color-bubble-me: #507EF1;
+      --color-bubble-them: #F4F1ED;
+      --color-good: #349D62;
+    }
+    @variant dark {
+      --color-bg: #0E1217;
+      --color-bg-2: #191D24;
+      --color-ink: #F3F1EE;
+      --color-ink-2: #B4B7BD;
+      --color-ink-3: #70757C;
+      --color-line: #292E36;
+      --color-bubble-me: #4D79E4;
+      --color-bubble-them: #20242B;
+      --color-good: #47B777;
+    }
+  }
+}
